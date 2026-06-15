@@ -6,7 +6,6 @@
   <title>Founder's Compass – Antler India</title>
   <link rel="preconnect" href="https://api.fontshare.com" />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700,800,900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -189,10 +188,9 @@
       overflow: hidden;
       box-shadow: 0 4px 28px rgba(70,6,29,.1);
     }
-    #map { width: 100%; height: 500px; }
-    .leaflet-popup-content {
-      font-family: 'Satoshi', sans-serif;
-      font-size: 13px; font-weight: 600; margin: 6px 10px;
+    .map-wrapper iframe {
+      display: block; border: 0;
+      width: 100%; height: 500px;
     }
 
     /* ══ NETWORK SECTION ════════════════════ */
@@ -285,7 +283,7 @@
       .nav-menu.open { display: flex; }
       .nav-hamburger { display: block; }
       .section-map, .section-network { padding: 48px 18px; }
-      #map { height: 300px; }
+      .map-wrapper iframe { height: 340px; }
       .hero { min-height: 420px; }
       .hero-title { font-size: clamp(48px, 13vw, 80px); }
       .hero-subtitle { max-width: 86%; font-size: 14px; }
@@ -348,7 +346,12 @@
   <p class="section-label">/Interactive Map/</p>
   <p class="section-desc">Every resource on the Compass, pinned on a map. Explore incubators, VCs, co-working hubs and communities across the Bangalore startup ecosystem.</p>
   <div class="map-wrapper">
-    <div id="map"></div>
+    <iframe
+      src="https://www.google.com/maps/d/embed?mid=1GJUCzax67w7pc0w8CWoiY-i4fXcLLXg&ehbc=2E312F"
+      allowfullscreen loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Founder's Compass – Bangalore Startup Ecosystem">
+    </iframe>
   </div>
 </section>
 
@@ -369,51 +372,7 @@
 
 <button class="scroll-top" id="scroll-top" title="Back to top">&#8593;</button>
 
-<!-- ═══════ LEAFLET MAP ════════ -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-<script>
-(function() {
-  var map = L.map('map', { center: [12.957, 77.599], zoom: 11 });
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd', maxZoom: 20
-  }).addTo(map);
-  function dot() {
-    return L.divIcon({
-      className: '',
-      html: '<div style="width:13px;height:13px;background:#ED4746;border:2.5px solid #fff;border-radius:50%;box-shadow:0 1px 5px rgba(70,6,29,.4)"></div>',
-      iconSize:[13,13], iconAnchor:[6.5,6.5], popupAnchor:[0,-10]
-    });
-  }
-  [
-    ["Centre for Cellular and Molecular Platforms", 13.0736, 77.5800],
-    ["Target Corporation India",                   12.9780, 77.6960],
-    ["Social Alpha",                               13.0170, 77.5680],
-    ["ARTPARK – IISc",                             13.0214, 77.5681],
-    ["Brigade REAP",                               13.0010, 77.6160],
-    ["TiE Bangalore",                              12.9400, 77.6140],
-    ["Kalaari Capital",                            12.9350, 77.6700],
-    ["Fireside Ventures",                          12.9290, 77.6720],
-    ["WeWork Koramangala",                         12.9200, 77.6370],
-    ["Gemba Capital Office",                       12.9180, 77.6400],
-    ["NSRCEL – IIM Bangalore",                     13.0194, 77.5668],
-    ["Amrita Technology Business Incubator",       12.8996, 77.6689],
-    ["Bangalore Bioinnovation Centre",             12.9640, 77.5831],
-    ["Infosys",                                    12.9333, 77.6985],
-    ["PES University",                             12.9176, 77.5290],
-    ["Atal Incubation Centre – Jyothy",            13.0520, 77.5170],
-    ["Accel India",                                12.9270, 77.6360],
-    ["Sequoia Capital India",                      12.9300, 77.6380],
-    ["Blume Ventures",                             12.9260, 77.6330],
-    ["Prime Venture Partners",                     12.9310, 77.6290],
-    ["Nexus Venture Partners",                     12.9245, 77.6245],
-    ["Venture Highway",                            12.9380, 77.6246],
-  ].forEach(function(p) {
-    L.marker([p[1],p[2]], {icon: dot()})
-     .bindPopup('<b>'+p[0]+'</b>').addTo(map);
-  });
-})();
-</script>
+<!-- Google My Maps embed — no JS needed -->
 
 <!-- ═══════ CARDS + UI ═════════ -->
 <script>
