@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -134,8 +135,9 @@
       box-shadow: 0 4px 28px rgba(0,0,0,.13);
     }
     #map { width: 100%; height: 500px; }
-    /* Google My Maps iframe */
-    .map-wrapper iframe { display: block; border: 0; width: 100%; height: 500px; }
+    /* Map */
+    #map { width: 100%; height: 500px; }
+    .leaflet-popup-content { font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 600; margin: 6px 10px; }
 
     /* ── NETWORK SECTION ─────────────────── */
     .section-network {
@@ -241,7 +243,7 @@
       .section-map, .section-network { padding: 52px 18px; }
       .filter-tabs { gap: 6px; }
       .tab-btn { padding: 8px 14px; font-size: 10px; letter-spacing: 1.2px; }
-      .map-wrapper iframe { height: 340px; }
+      #map { height: 340px; }
     }
   </style>
 </head>
@@ -282,13 +284,7 @@
   <p class="section-label">/Interactive Map/</p>
   <p class="section-desc">Every resource on the Compass, pinned on a map. Explore incubators, VCs, co-working hubs and communities across the Bangalore startup ecosystem.</p>
   <div class="map-wrapper">
-    <iframe
-      src="https://www.google.com/maps/d/embed?mid=zBL--lhA4Gx014ls8Q__Zg&ehbc=2E312F"
-      allowfullscreen
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade"
-      title="Founder's Compass – Bangalore Startup Ecosystem Map">
-    </iframe>
+    <div id="map"></div>
   </div>
 </section>
 
@@ -312,7 +308,65 @@
 <!-- Scroll-to-top -->
 <button class="scroll-top" id="scroll-top" title="Back to top">&#8593;</button>
 
-<!-- Google My Maps embed handled inline above via <iframe> -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLcE=" crossorigin=""></script>
+<script>
+(function initMap() {
+  var map = L.map('map', { center: [12.9570, 77.5990], zoom: 11, zoomControl: true });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd', maxZoom: 20
+  }).addTo(map);
+
+  function pin() {
+    return L.divIcon({
+      className: '',
+      html: '<div style="width:13px;height:13px;background:#C8312C;border:2.5px solid #fff;border-radius:50%;box-shadow:0 1px 5px rgba(0,0,0,.38)"></div>',
+      iconSize: [13,13], iconAnchor: [6.5,6.5], popupAnchor: [0,-10]
+    });
+  }
+
+  /* Locations sourced from "Founder Compass: Bangalore Edition" saved list */
+  var places = [
+    { n:"Centre for Cellular and Molecular Platforms (C-CAMP)", lat:13.0736, lng:77.5800 },
+    { n:"Target Corporation India",              lat:12.9780, lng:77.6960 },
+    { n:"Social Alpha",                          lat:13.0170, lng:77.5680 },
+    { n:"ARTPARK – IISc office",                 lat:13.0214, lng:77.5681 },
+    { n:"Brigade REAP",                          lat:13.0010, lng:77.6160 },
+    { n:"TiE Bangalore",                         lat:12.9400, lng:77.6140 },
+    { n:"Kalaari Capital",                       lat:12.9350, lng:77.6700 },
+    { n:"Fireside Ventures",                     lat:12.9290, lng:77.6720 },
+    { n:"WeWork",                                lat:12.9200, lng:77.6370 },
+    { n:"Gemba Capital Office",                  lat:12.9180, lng:77.6400 },
+    { n:"NSRCEL – IIM Bangalore",                lat:13.0194, lng:77.5668 },
+    { n:"Amrita Technology Business Incubator",  lat:12.8996, lng:77.6689 },
+    { n:"Bangalore Bioinnovation Centre (BBC)",  lat:12.9640, lng:77.5831 },
+    { n:"Infosys",                               lat:12.9333, lng:77.6985 },
+    { n:"PES University",                        lat:12.9176, lng:77.5290 },
+    { n:"Atal Incubation Centre – Jyothy Institute", lat:13.0520, lng:77.5170 },
+    { n:"Indian Institute of Science",           lat:13.0214, lng:77.5681 },
+    { n:"Lossfunk",                              lat:12.9714, lng:77.6408 },
+    { n:"Accel India",                           lat:12.9270, lng:77.6360 },
+    { n:"Sequoia Capital India",                 lat:12.9300, lng:77.6380 },
+    { n:"Blume Ventures",                        lat:12.9260, lng:77.6330 },
+    { n:"Prime Venture Partners",                lat:12.9310, lng:77.6290 },
+    { n:"Nexus Venture Partners",                lat:12.9245, lng:77.6245 },
+    { n:"Venture Highway",                       lat:12.9380, lng:77.6246 },
+    { n:"Draper Associates India",               lat:12.9350, lng:77.6260 },
+    { n:"Matrix Partners India",                 lat:12.9260, lng:77.6260 },
+    { n:"Chiratae Ventures",                     lat:12.9290, lng:77.6280 },
+    { n:"IvyCap Ventures",                       lat:12.9310, lng:77.6300 },
+    { n:"Stellaris Venture Partners",            lat:12.9255, lng:77.6255 },
+    { n:"Saif Partners",                         lat:12.9330, lng:77.6330 },
+  ];
+
+  places.forEach(function(p) {
+    L.marker([p.lat, p.lng], { icon: pin() })
+     .bindPopup('<b>' + p.n + '</b>')
+     .addTo(map);
+  });
+})();
+</script>
 
 <!-- ════════════════════════════════════════
      ISOMETRIC HERO BLOCKS
