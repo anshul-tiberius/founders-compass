@@ -7,7 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -135,8 +134,8 @@
       box-shadow: 0 4px 28px rgba(0,0,0,.13);
     }
     #map { width: 100%; height: 500px; }
-    /* Leaflet popup font override */
-    .leaflet-popup-content { font-family: 'Barlow', sans-serif; font-size: 13px; font-weight: 600; margin: 6px 10px; }
+    /* Google My Maps iframe */
+    .map-wrapper iframe { display: block; border: 0; width: 100%; height: 500px; }
 
     /* ── NETWORK SECTION ─────────────────── */
     .section-network {
@@ -242,7 +241,7 @@
       .section-map, .section-network { padding: 52px 18px; }
       .filter-tabs { gap: 6px; }
       .tab-btn { padding: 8px 14px; font-size: 10px; letter-spacing: 1.2px; }
-      #map { height: 340px; }
+      .map-wrapper iframe { height: 340px; }
     }
   </style>
 </head>
@@ -281,9 +280,15 @@
 ════════════════════════════════════════ -->
 <section class="section-map" id="map-section">
   <p class="section-label">/Interactive Map/</p>
-  <p class="section-desc">Lorem dolor sit amet, consectetur adipis elit, sed do dolor eiusmod consecutir. dolor sit amet, consectetur adipis elit.</p>
+  <p class="section-desc">Every resource on the Compass, pinned on a map. Explore incubators, VCs, co-working hubs and communities across the Bangalore startup ecosystem.</p>
   <div class="map-wrapper">
-    <div id="map"></div>
+    <iframe
+      src="https://www.google.com/maps/d/embed?mid=zBL--lhA4Gx014ls8Q__Zg&ehbc=2E312F"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="Founder's Compass – Bangalore Startup Ecosystem Map">
+    </iframe>
   </div>
 </section>
 
@@ -292,7 +297,7 @@
 ════════════════════════════════════════ -->
 <section class="section-network" id="network-section">
   <p class="section-label">/Network Details/</p>
-  <p class="section-desc">Lorem dolor sit amet, consectetur adipis elit, sed do dolor eiusmod consecutir. dolor sit amet, consectetur adipis elit.</p>
+  <p class="section-desc">Curated resources across every stage of your founder journey — from incubation and community to venture capital and strategic family offices.</p>
 
   <div class="filter-tabs">
     <button class="tab-btn active" data-cat="incubators">Incubators &amp; Accelerators</button>
@@ -307,61 +312,7 @@
 <!-- Scroll-to-top -->
 <button class="scroll-top" id="scroll-top" title="Back to top">&#8593;</button>
 
-<!-- ════════════════════════════════════════
-     LEAFLET MAP (no API key required)
-     To use Google Maps instead, see comment below.
-════════════════════════════════════════ -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV/XN/WLcE=" crossorigin=""></script>
-<script>
-(function initMap() {
-  var map = L.map('map', { center: [12.9540, 77.5990], zoom: 11, zoomControl: true });
-
-  /* CartoDB Voyager tiles — closest free look to Google Maps */
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains: 'abcd', maxZoom: 20
-  }).addTo(map);
-
-  function redDot() {
-    return L.divIcon({
-      className: '',
-      html: '<div style="width:13px;height:13px;background:#C8312C;border:2.5px solid #fff;border-radius:50%;box-shadow:0 1px 5px rgba(0,0,0,.38)"></div>',
-      iconSize: [13, 13], iconAnchor: [6.5, 6.5], popupAnchor: [0, -10]
-    });
-  }
-
-  var locations = [
-    { name: "NSRCEL – IIM Bangalore",               lat: 13.0184, lng: 77.5636 },
-    { name: "ARTPARK – IISc Bangalore",              lat: 13.0217, lng: 77.5654 },
-    { name: "C-CAMP",                                lat: 13.0190, lng: 77.5660 },
-    { name: "Social Alpha",                          lat: 12.9813, lng: 77.5931 },
-    { name: "Brigade REAP",                          lat: 12.9769, lng: 77.6090 },
-    { name: "TiE Bangalore",                         lat: 12.9265, lng: 77.6454 },
-    { name: "Kalaari Capital",                       lat: 12.9270, lng: 77.6440 },
-    { name: "Fireside Ventures",                     lat: 12.9350, lng: 77.6270 },
-    { name: "Prime Venture Partners",                lat: 12.9200, lng: 77.6200 },
-    { name: "Accel India",                           lat: 12.9290, lng: 77.6250 },
-    { name: "Venture Highway",                       lat: 12.9380, lng: 77.6246 },
-    { name: "WeWork Koramangala",                    lat: 12.9352, lng: 77.6245 },
-    { name: "PES University Innovation Lab",         lat: 12.9176, lng: 77.5290 },
-    { name: "Atal Incubation Centre – Jyothy",       lat: 13.0627, lng: 77.5627 },
-    { name: "Bangalore Bioinnovation Centre",        lat: 12.9650, lng: 77.5810 },
-    { name: "Infosys BIC",                           lat: 12.9333, lng: 77.6985 },
-    { name: "Amrita Technology Business Incubator",  lat: 12.9050, lng: 77.4850 },
-    { name: "Manipal Foundation",                    lat: 12.9226, lng: 77.5007 },
-    { name: "Target Corporation India",              lat: 12.9716, lng: 77.5946 },
-    { name: "Sequoia Capital India",                 lat: 12.9300, lng: 77.6280 },
-    { name: "Blume Ventures",                        lat: 12.9260, lng: 77.6320 },
-    { name: "Nexus Venture Partners",                lat: 12.9310, lng: 77.6240 },
-  ];
-
-  locations.forEach(function(loc) {
-    L.marker([loc.lat, loc.lng], { icon: redDot() })
-      .bindPopup('<b>' + loc.name + '</b>')
-      .addTo(map);
-  });
-})();
-</script>
+<!-- Google My Maps embed handled inline above via <iframe> -->
 
 <!-- ════════════════════════════════════════
      ISOMETRIC HERO BLOCKS
