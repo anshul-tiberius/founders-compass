@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Founder's Compass – Antler India</title>
-  <!-- Satoshi — Antler's brand font (via Fontshare) -->
   <link rel="preconnect" href="https://api.fontshare.com" />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700,800,900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
@@ -13,14 +12,15 @@
     html { scroll-behavior: smooth; }
 
     :root {
+      /* ── Exact Figma values ── */
       --red:        #ED4746;
       --red-hover:  #c93534;
-      --red-border: #46061d;
-      --beige:      #D6C9B6;
-      --beige-lt:   #DDD1BF;
-      --teal:       #7DB5B0;
-      --dark:       #1A1A1A;
-      --gray:       #777;
+      --red-border: #46061D;
+      --beige:      #E1D7CE;   /* hero + map section bg */
+      --teal:       #BFD9D5;   /* network section bg   */
+      --nav-bg:     #FEFCF6;
+      --dark:       #46061D;
+      --gray:       #888;
       --white:      #FFFFFF;
     }
 
@@ -31,81 +31,137 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── NAV ─────────────────────────────── */
+    /* ══ NAV ═══════════════════════════════ */
     .navbar {
       position: sticky; top: 0; z-index: 1000;
-      background: var(--white);
+      background: var(--nav-bg);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 52px; height: 58px;
-      box-shadow: 0 1px 0 rgba(0,0,0,0.09);
+      padding: 0 30px; height: 86px;
+      box-shadow: 0 1px 0 rgba(70,6,29,.08);
     }
     .nav-logo {
-      font-family: 'Satoshi', sans-serif;
       font-weight: 900; font-size: 15px;
       color: var(--red); letter-spacing: 3px;
-      text-decoration: none;
+      text-decoration: none; text-transform: uppercase;
     }
     .nav-menu {
-      display: flex; align-items: center; gap: 4px;
-      list-style: none;
+      display: flex; align-items: center; list-style: none; gap: 0;
     }
     .nav-menu a {
       text-decoration: none; color: var(--dark);
       font-size: 11px; font-weight: 500;
       letter-spacing: 1.8px; text-transform: uppercase;
-      padding: 8px 14px; display: block;
-      transition: color .18s;
+      padding: 8px 16px; display: block; transition: color .18s;
     }
     .nav-menu a:hover { color: var(--red); }
     .nav-apply {
-      background: var(--red) !important;
-      color: var(--white) !important;
-      font-weight: 700 !important;
-      transition: background .18s !important;
+      background: var(--red) !important; color: var(--white) !important;
+      font-weight: 700 !important; letter-spacing: 1.8px !important;
+      border: 1px solid var(--red-border) !important;
     }
     .nav-apply:hover { background: var(--red-hover) !important; }
     .nav-hamburger {
       display: none; background: none; border: none;
-      font-size: 22px; cursor: pointer; color: var(--dark);
-      padding: 4px 8px;
+      font-size: 22px; cursor: pointer; color: var(--dark); padding: 4px 8px;
     }
 
-    /* ── HERO ────────────────────────────── */
+    /* ══ HERO ═══════════════════════════════
+       Figma frame: 1440 × 931 (incl. 86px nav)
+       Hero section = 931 − 86 = 845px @ 1440px → 58.68vw
+       All block/pin positions use:
+         left  = figma_x / 1440 × 100%
+         top   = (figma_y − 86) / 845 × 100%
+         width = figma_w / 1440 × 100%
+    ════════════════════════════════════════ */
     .hero {
-      position: relative; background: var(--beige);
-      min-height: 540px; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; text-align: center;
-      padding: 110px 24px 90px;
+      position: relative;
+      background: var(--beige);
+      width: 100%;
+      height: 58.68vw;
+      min-height: 500px;
+      overflow: hidden;
     }
-    .hero-svg {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
+
+    /* Diagonal grid lines */
+    .hero-grid {
+      position: absolute;
+      left: -30.97%; top: -81.3%;
+      width: 170.1%;
       pointer-events: none;
+      opacity: .9;
     }
-    .hero-content { position: relative; z-index: 2; }
+
+    /* All block + pin SVGs */
+    .ha { position: absolute; display: block; pointer-events: none; }
+
+    /* ── Isometric block clusters ── */
+    /* blocks-tl  figma: x=90, y=-76,  w=358 */
+    .b-tl  { left:6.25%;   top:-19.17%; width:24.86%; }
+    /* blocks-tr  figma: x=1173, y=76,  w=331 */
+    .b-tr  { left:81.46%;  top:-1.18%;  width:22.99%; }
+    /* blocks-r   figma: x=1199, y=319, w=283 */
+    .b-r   { left:83.26%;  top:27.57%;  width:19.65%; }
+    /* blocks-cr  figma: x=916, y=35,   w=156 */
+    .b-cr  { left:63.61%;  top:-6.04%;  width:10.83%; }
+    /* blocks-c   figma: x=659, y=84,   w=92  */
+    .b-c   { left:45.76%;  top:-0.24%;  width:6.39%;  }
+    /* blocks-cl  figma: x=577, y=33,   w=82  */
+    .b-cl  { left:40.07%;  top:-6.27%;  width:5.69%;  }
+    /* blocks-fl  figma: x=-36, y=269,  w=92  */
+    .b-fl  { left:-2.5%;   top:21.66%;  width:6.39%;  }
+    /* blocks-ml  figma: x=150, y=466,  w=92  */
+    .b-ml  { left:10.42%;  top:44.97%;  width:6.39%;  }
+    /* blocks-lm  figma: x=-9, y=436,   w=158 */
+    .b-lm  { left:-0.63%;  top:41.42%;  width:10.97%; }
+    /* blocks-bl  figma: x=-65, y=785,  w=331 */
+    .b-bl  { left:-4.51%;  top:82.72%;  width:22.99%; }
+    /* blocks-br  figma: x=1204, y=779, w=161 */
+    .b-br  { left:83.61%;  top:82.01%;  width:11.18%; }
+    /* blocks-fr  figma: x=1406, y=665, w=92  */
+    .b-fr  { left:97.64%;  top:68.52%;  width:6.39%;  }
+    /* blocks-rb  figma: x=1084, y=788, w=92  */
+    .b-rb  { left:75.28%;  top:83.08%;  width:6.39%;  }
+
+    /* ── Map pins in hero ── */
+    /* pin-4  figma: x=223, y=170, w=58 */
+    .p-4   { left:15.49%;  top:9.94%;   width:4.03%;  }
+    /* pin-1  figma: x=214, y=746, w=68 */
+    .p-1   { left:14.86%;  top:78.11%;  width:4.72%;  }
+    /* pin-2  figma: x=1174, y=443, w=68 */
+    .p-2   { left:81.53%;  top:42.25%;  width:4.72%;  }
+    /* pin-3  figma: x=1007, y=733, w=57 */
+    .p-3   { left:69.93%;  top:76.57%;  width:3.96%;  }
+
+    /* ── Hero text content ── */
+    .hero-content {
+      position: absolute;
+      left: 0; right: 0;
+      top: 30%;        /* title starts at figma y=335, (335-86)/845≈29.6% */
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center;
+      padding: 0 24px;
+      z-index: 2;
+    }
     .hero-title {
-      font-family: 'Satoshi', sans-serif;
       font-weight: 900;
-      font-size: clamp(72px, 11.5vw, 138px);
+      font-size: clamp(60px, 10vw, 130px);
       line-height: .88;
-      color: rgba(255, 252, 246, 0.93);
+      color: rgba(255,252,246,.93);
       letter-spacing: -1px;
       text-transform: uppercase;
-      text-shadow: 2px 2px 0 rgba(130, 95, 65, .20),
-                   -1px -1px 0 rgba(255,255,255,.15);
+      text-shadow: 2px 2px 0 rgba(100,50,20,.16);
     }
     .hero-subtitle {
-      margin-top: 26px;
-      font-size: clamp(14px, 1.7vw, 17px);
-      line-height: 1.72; color: var(--dark);
-      max-width: 500px; margin-left: auto; margin-right: auto;
+      margin-top: 2.6%;
+      font-size: clamp(13px, 1.35vw, 18px);
+      line-height: 1.65; color: var(--dark);
+      max-width: 54%; font-weight: 500;
     }
     .hero-cta {
-      margin-top: 38px;
+      margin-top: 3%;
       display: inline-flex; align-items: center; gap: 10px;
       background: var(--red); color: var(--white);
-      padding: 13px 34px;
+      padding: 14px 36px;
       font-size: 13px; font-weight: 700;
       letter-spacing: 2px; text-transform: uppercase;
       text-decoration: none;
@@ -114,41 +170,35 @@
     }
     .hero-cta:hover { background: var(--red-hover); }
 
-    /* ── SHARED SECTION ──────────────────── */
+    /* ══ SHARED ═════════════════════════════ */
     .section-label {
       font-size: 13px; font-style: italic;
       color: var(--gray); letter-spacing: .4px;
       margin-bottom: 14px; text-align: center;
     }
     .section-desc {
-      font-size: clamp(18px, 2.7vw, 25px);
-      line-height: 1.55; font-weight: 400; color: var(--dark);
-      max-width: 620px; margin: 0 auto 52px;
-      text-align: center;
+      font-size: clamp(18px, 2.4vw, 26px);
+      line-height: 1.5; font-weight: 500; color: var(--dark);
+      max-width: 620px; margin: 0 auto 52px; text-align: center;
     }
 
-    /* ── MAP SECTION ─────────────────────── */
-    .section-map {
-      background: var(--beige-lt);
-      padding: 76px 48px;
-    }
+    /* ══ MAP SECTION ════════════════════════ */
+    .section-map { background: var(--beige); padding: 72px 48px; }
     .map-wrapper {
       width: 100%; max-width: 1100px; margin: 0 auto;
       overflow: hidden;
-      box-shadow: 0 4px 28px rgba(0,0,0,.13);
+      box-shadow: 0 4px 28px rgba(70,6,29,.1);
     }
     #map { width: 100%; height: 500px; }
-    /* Map */
-    #map { width: 100%; height: 500px; }
-    .leaflet-popup-content { font-family: 'Satoshi', sans-serif; font-size: 13px; font-weight: 600; margin: 6px 10px; }
-
-    /* ── NETWORK SECTION ─────────────────── */
-    .section-network {
-      background: var(--teal);
-      padding: 76px 48px;
+    .leaflet-popup-content {
+      font-family: 'Satoshi', sans-serif;
+      font-size: 13px; font-weight: 600; margin: 6px 10px;
     }
 
-    /* ── FILTER TABS ─────────────────────── */
+    /* ══ NETWORK SECTION ════════════════════ */
+    .section-network { background: var(--teal); padding: 72px 48px; }
+
+    /* ── Filter tabs ── */
     .filter-tabs {
       display: flex; flex-wrap: wrap; gap: 8px;
       justify-content: center; margin-bottom: 48px;
@@ -158,53 +208,39 @@
       border: 1.5px solid var(--dark); color: var(--dark);
       padding: 10px 22px;
       font-family: 'Satoshi', sans-serif;
-      font-size: 11px; font-weight: 600;
+      font-size: 11px; font-weight: 700;
       letter-spacing: 1.8px; text-transform: uppercase;
       cursor: pointer; transition: background .18s, color .18s, border-color .18s;
     }
-    .tab-btn.active {
-      background: var(--red); border-color: var(--red); color: var(--white);
-    }
+    .tab-btn.active { background: var(--red); border-color: var(--red); color: var(--white); }
     .tab-btn:hover:not(.active) { background: rgba(255,255,255,.28); }
 
-    /* ── CARDS ───────────────────────────── */
+    /* ── Cards ── */
     .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      max-width: 1100px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 20px; max-width: 1100px; margin: 0 auto;
     }
     .card {
       background: var(--white);
-      border: 1px solid rgba(220,215,205,.8);
+      border: 1px solid rgba(70,6,29,.1);
       padding: 28px 24px 22px;
       display: flex; flex-direction: column;
     }
     .card-logo {
-      width: 100%; height: 78px;
-      background: #F0EDE8;
+      width: 100%; height: 80px; background: #F2EDE7;
       display: flex; align-items: center; justify-content: center;
       margin-bottom: 18px;
-      font-family: 'Satoshi', sans-serif;
-      font-size: 12px; font-weight: 700;
-      letter-spacing: 2px; color: #BBBBBB;
-      text-transform: uppercase;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; color: #C0B8B0; text-transform: uppercase;
     }
-    .card-name {
-      font-size: 15px; font-weight: 600; color: var(--dark);
-      margin-bottom: 7px; line-height: 1.35;
-    }
-    .card-desc {
-      font-size: 13px; line-height: 1.65; color: #666; flex: 1;
-    }
+    .card-name { font-size: 15px; font-weight: 700; color: var(--dark); margin-bottom: 7px; line-height: 1.35; }
+    .card-desc { font-size: 13px; line-height: 1.65; color: #666; flex: 1; }
     .card-more {
       font-size: 13px; line-height: 1.65; color: #666;
       max-height: 0; overflow: hidden;
       transition: max-height .35s ease, margin-top .25s;
     }
-    .card.expanded .card-more {
-      max-height: 200px; margin-top: 6px;
-    }
+    .card.expanded .card-more { max-height: 200px; margin-top: 6px; }
     .card-read-more {
       margin-top: 14px;
       display: inline-flex; align-items: center; gap: 6px;
@@ -217,44 +253,50 @@
     .read-arrow { transition: transform .25s; display: inline-block; font-size: 13px; }
     .card.expanded .read-arrow { transform: rotate(90deg); }
 
-    /* ── SCROLL TO TOP ───────────────────── */
+    /* ══ SCROLL-TO-TOP ══════════════════════ */
     .scroll-top {
       position: fixed; bottom: 22px; right: 22px;
       width: 42px; height: 42px;
       background: var(--red); color: var(--white);
-      border: none; cursor: pointer; font-size: 17px;
+      border: 1px solid var(--red-border);
+      cursor: pointer; font-size: 17px;
       display: flex; align-items: center; justify-content: center;
       opacity: 0; pointer-events: none;
       transition: opacity .28s; z-index: 990;
     }
     .scroll-top.show { opacity: 1; pointer-events: all; }
 
-    /* ── RESPONSIVE ──────────────────────── */
+    /* ══ RESPONSIVE ═════════════════════════ */
     @media (max-width: 960px) {
-      .cards-grid { grid-template-columns: repeat(2, 1fr); }
-      .navbar { padding: 0 28px; }
-      .section-map, .section-network { padding: 60px 28px; }
+      .cards-grid { grid-template-columns: repeat(2,1fr); }
+      .navbar { padding: 0 24px; height: 70px; }
+      .section-map, .section-network { padding: 56px 28px; }
+      /* Hide smaller decorative blocks on tablet */
+      .b-cl,.b-c,.b-fl,.b-ml,.b-lm,.b-fr { display: none; }
     }
     @media (max-width: 600px) {
       .cards-grid { grid-template-columns: 1fr; }
-      .nav-menu { display: none; flex-direction: column; position: absolute; top: 58px; left: 0; right: 0; background: var(--white); padding: 12px 24px 20px; box-shadow: 0 6px 20px rgba(0,0,0,.1); gap: 2px; }
+      .nav-menu {
+        display: none; flex-direction: column;
+        position: absolute; top: 70px; left: 0; right: 0;
+        background: var(--nav-bg); padding: 12px 24px 20px;
+        box-shadow: 0 6px 20px rgba(0,0,0,.1); gap: 2px;
+      }
       .nav-menu.open { display: flex; }
-      .nav-menu a { padding: 10px 4px; }
       .nav-hamburger { display: block; }
-      .hero { min-height: 400px; padding: 80px 16px 60px; }
-      .hero-title { letter-spacing: -1px; }
-      .section-map, .section-network { padding: 52px 18px; }
-      .filter-tabs { gap: 6px; }
-      .tab-btn { padding: 8px 14px; font-size: 10px; letter-spacing: 1.2px; }
-      #map { height: 340px; }
+      .section-map, .section-network { padding: 48px 18px; }
+      #map { height: 300px; }
+      .hero { min-height: 420px; }
+      .hero-title { font-size: clamp(48px, 13vw, 80px); }
+      .hero-subtitle { max-width: 86%; font-size: 14px; }
+      /* On mobile show only corner clusters */
+      .b-cr,.b-c,.b-cl,.b-fl,.b-fr,.b-ml,.b-lm,.b-rb { display: none; }
     }
   </style>
 </head>
 <body>
 
-<!-- ════════════════════════════════════════
-     NAV
-════════════════════════════════════════ -->
+<!-- ═══════════ NAV ════════════ -->
 <nav class="navbar">
   <a href="#" class="nav-logo">ANTLER</a>
   <ul class="nav-menu" id="nav-menu">
@@ -266,23 +308,42 @@
   <button class="nav-hamburger" id="hamburger" aria-label="Menu">&#9776;</button>
 </nav>
 
-<!-- ════════════════════════════════════════
-     HERO
-════════════════════════════════════════ -->
+<!-- ═══════════ HERO ══════════ -->
 <section class="hero" id="top">
-  <!-- Isometric blocks + pins rendered by JS into this SVG -->
-  <svg class="hero-svg" id="hero-svg" viewBox="0 0 1200 540" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"></svg>
 
+  <!-- Faint diagonal grid lines -->
+  <img class="ha hero-grid" src="assets/grid-bg.svg" alt="" />
+
+  <!-- Isometric block clusters — exact Figma SVGs, exact positions -->
+  <img class="ha b-tl" src="assets/blocks-tl.svg" alt="" />
+  <img class="ha b-tr" src="assets/blocks-tr.svg" alt="" />
+  <img class="ha b-r"  src="assets/blocks-r.svg"  alt="" />
+  <img class="ha b-cr" src="assets/blocks-cr.svg" alt="" />
+  <img class="ha b-c"  src="assets/blocks-c.svg"  alt="" />
+  <img class="ha b-cl" src="assets/blocks-cl.svg" alt="" />
+  <img class="ha b-fl" src="assets/blocks-fl.svg" alt="" />
+  <img class="ha b-ml" src="assets/blocks-ml.svg" alt="" />
+  <img class="ha b-lm" src="assets/blocks-lm.svg" alt="" />
+  <img class="ha b-bl" src="assets/blocks-bl.svg" alt="" />
+  <img class="ha b-br" src="assets/blocks-br.svg" alt="" />
+  <img class="ha b-fr" src="assets/blocks-fr.svg" alt="" />
+  <img class="ha b-rb" src="assets/blocks-rb.svg" alt="" />
+
+  <!-- Map pins -->
+  <img class="ha p-4"  src="assets/pin-4.svg"    alt="" />
+  <img class="ha p-1"  src="assets/pin-1.svg"    alt="" />
+  <img class="ha p-2"  src="assets/pin-2.svg"    alt="" />
+  <img class="ha p-3"  src="assets/pin-3.svg"    alt="" />
+
+  <!-- Text content -->
   <div class="hero-content">
     <h1 class="hero-title">FOUNDER'S<br>CoMPASS</h1>
     <p class="hero-subtitle">Curated By Antler To Help Founders Navigate Resources,<br>Networks And Capital Available At Every Stage Of The Journey</p>
-    <a href="#map-section" class="hero-cta">DISCOVER &darr;</a>
+    <a href="#map-section" class="hero-cta">DISCOVER &#8595;</a>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     MAP SECTION
-════════════════════════════════════════ -->
+<!-- ═══════════ MAP ════════════ -->
 <section class="section-map" id="map-section">
   <p class="section-label">/Interactive Map/</p>
   <p class="section-desc">Every resource on the Compass, pinned on a map. Explore incubators, VCs, co-working hubs and communities across the Bangalore startup ecosystem.</p>
@@ -291,9 +352,7 @@
   </div>
 </section>
 
-<!-- ════════════════════════════════════════
-     NETWORK DETAILS
-════════════════════════════════════════ -->
+<!-- ═══════════ NETWORK ═══════ -->
 <section class="section-network" id="network-section">
   <p class="section-label">/Network Details/</p>
   <p class="section-desc">Curated resources across every stage of your founder journey — from incubation and community to venture capital and strategic family offices.</p>
@@ -308,371 +367,169 @@
   <div class="cards-grid" id="cards-grid"></div>
 </section>
 
-<!-- Scroll-to-top -->
 <button class="scroll-top" id="scroll-top" title="Back to top">&#8593;</button>
 
+<!-- ═══════ LEAFLET MAP ════════ -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script>
-(function initMap() {
-  var map = L.map('map', { center: [12.9570, 77.5990], zoom: 11, zoomControl: true });
-
+(function() {
+  var map = L.map('map', { center: [12.957, 77.599], zoom: 11 });
   L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
     subdomains: 'abcd', maxZoom: 20
   }).addTo(map);
-
-  function pin() {
+  function dot() {
     return L.divIcon({
       className: '',
-      html: '<div style="width:13px;height:13px;background:#C8312C;border:2.5px solid #fff;border-radius:50%;box-shadow:0 1px 5px rgba(0,0,0,.38)"></div>',
-      iconSize: [13,13], iconAnchor: [6.5,6.5], popupAnchor: [0,-10]
+      html: '<div style="width:13px;height:13px;background:#ED4746;border:2.5px solid #fff;border-radius:50%;box-shadow:0 1px 5px rgba(70,6,29,.4)"></div>',
+      iconSize:[13,13], iconAnchor:[6.5,6.5], popupAnchor:[0,-10]
     });
   }
-
-  /* Locations sourced from "Founder Compass: Bangalore Edition" saved list */
-  var places = [
-    { n:"Centre for Cellular and Molecular Platforms (C-CAMP)", lat:13.0736, lng:77.5800 },
-    { n:"Target Corporation India",              lat:12.9780, lng:77.6960 },
-    { n:"Social Alpha",                          lat:13.0170, lng:77.5680 },
-    { n:"ARTPARK – IISc office",                 lat:13.0214, lng:77.5681 },
-    { n:"Brigade REAP",                          lat:13.0010, lng:77.6160 },
-    { n:"TiE Bangalore",                         lat:12.9400, lng:77.6140 },
-    { n:"Kalaari Capital",                       lat:12.9350, lng:77.6700 },
-    { n:"Fireside Ventures",                     lat:12.9290, lng:77.6720 },
-    { n:"WeWork",                                lat:12.9200, lng:77.6370 },
-    { n:"Gemba Capital Office",                  lat:12.9180, lng:77.6400 },
-    { n:"NSRCEL – IIM Bangalore",                lat:13.0194, lng:77.5668 },
-    { n:"Amrita Technology Business Incubator",  lat:12.8996, lng:77.6689 },
-    { n:"Bangalore Bioinnovation Centre (BBC)",  lat:12.9640, lng:77.5831 },
-    { n:"Infosys",                               lat:12.9333, lng:77.6985 },
-    { n:"PES University",                        lat:12.9176, lng:77.5290 },
-    { n:"Atal Incubation Centre – Jyothy Institute", lat:13.0520, lng:77.5170 },
-    { n:"Indian Institute of Science",           lat:13.0214, lng:77.5681 },
-    { n:"Lossfunk",                              lat:12.9714, lng:77.6408 },
-    { n:"Accel India",                           lat:12.9270, lng:77.6360 },
-    { n:"Sequoia Capital India",                 lat:12.9300, lng:77.6380 },
-    { n:"Blume Ventures",                        lat:12.9260, lng:77.6330 },
-    { n:"Prime Venture Partners",                lat:12.9310, lng:77.6290 },
-    { n:"Nexus Venture Partners",                lat:12.9245, lng:77.6245 },
-    { n:"Venture Highway",                       lat:12.9380, lng:77.6246 },
-    { n:"Draper Associates India",               lat:12.9350, lng:77.6260 },
-    { n:"Matrix Partners India",                 lat:12.9260, lng:77.6260 },
-    { n:"Chiratae Ventures",                     lat:12.9290, lng:77.6280 },
-    { n:"IvyCap Ventures",                       lat:12.9310, lng:77.6300 },
-    { n:"Stellaris Venture Partners",            lat:12.9255, lng:77.6255 },
-    { n:"Saif Partners",                         lat:12.9330, lng:77.6330 },
-  ];
-
-  places.forEach(function(p) {
-    L.marker([p.lat, p.lng], { icon: pin() })
-     .bindPopup('<b>' + p.n + '</b>')
-     .addTo(map);
+  [
+    ["Centre for Cellular and Molecular Platforms", 13.0736, 77.5800],
+    ["Target Corporation India",                   12.9780, 77.6960],
+    ["Social Alpha",                               13.0170, 77.5680],
+    ["ARTPARK – IISc",                             13.0214, 77.5681],
+    ["Brigade REAP",                               13.0010, 77.6160],
+    ["TiE Bangalore",                              12.9400, 77.6140],
+    ["Kalaari Capital",                            12.9350, 77.6700],
+    ["Fireside Ventures",                          12.9290, 77.6720],
+    ["WeWork Koramangala",                         12.9200, 77.6370],
+    ["Gemba Capital Office",                       12.9180, 77.6400],
+    ["NSRCEL – IIM Bangalore",                     13.0194, 77.5668],
+    ["Amrita Technology Business Incubator",       12.8996, 77.6689],
+    ["Bangalore Bioinnovation Centre",             12.9640, 77.5831],
+    ["Infosys",                                    12.9333, 77.6985],
+    ["PES University",                             12.9176, 77.5290],
+    ["Atal Incubation Centre – Jyothy",            13.0520, 77.5170],
+    ["Accel India",                                12.9270, 77.6360],
+    ["Sequoia Capital India",                      12.9300, 77.6380],
+    ["Blume Ventures",                             12.9260, 77.6330],
+    ["Prime Venture Partners",                     12.9310, 77.6290],
+    ["Nexus Venture Partners",                     12.9245, 77.6245],
+    ["Venture Highway",                            12.9380, 77.6246],
+  ].forEach(function(p) {
+    L.marker([p[1],p[2]], {icon: dot()})
+     .bindPopup('<b>'+p[0]+'</b>').addTo(map);
   });
 })();
 </script>
 
-<!-- ════════════════════════════════════════
-     ISOMETRIC HERO BLOCKS
-════════════════════════════════════════ -->
-<script>
-(function buildHero() {
-  var svg = document.getElementById('hero-svg');
-  var NS = 'http://www.w3.org/2000/svg';
-
-  /* palette: [top, right, left] */
-  var TEAL  = ['#6EC8C1','#45A89F','#2B8880'];
-  var RED   = ['#E87060','#C84A3A','#A52D20'];
-  var CREAM = ['#F7E89E','#DACB6C','#BAA448'];
-  var ORANG = ['#F2AC58','#D28A35','#AE6C18'];
-
-  function cube(x, y, s, pal) {
-    var h = +(s * 0.866).toFixed(2);
-    var g = document.createElementNS(NS, 'g');
-    g.setAttribute('transform', 'translate('+x+','+y+')');
-
-    var faces = [
-      { pts: '0,'+(-s)+' '+h+','+(-(s*.5))+' 0,0 '+(-h)+','+(-(s*.5)), fill: pal[0] },
-      { pts: h+','+(-(s*.5))+' 0,0 0,'+s+' '+h+','+(s*.5),             fill: pal[1] },
-      { pts: (-h)+','+(-(s*.5))+' 0,0 0,'+s+' '+(-h)+','+(s*.5),       fill: pal[2] }
-    ];
-    faces.forEach(function(f) {
-      var p = document.createElementNS(NS, 'polygon');
-      p.setAttribute('points', f.pts);
-      p.setAttribute('fill', f.fill);
-      g.appendChild(p);
-    });
-    svg.appendChild(g);
-  }
-
-  function pin(x, y, s) {
-    var g = document.createElementNS(NS, 'g');
-    g.setAttribute('transform', 'translate('+x+','+y+')');
-    var path = document.createElementNS(NS, 'path');
-    var r = s * 0.42;
-    path.setAttribute('d',
-      'M0,0 C'+r*1.6+',0 '+r*1.6+','+(s*.65)+' 0,'+s+
-      ' C'+(-r*1.6)+','+(s*.65)+' '+(-r*1.6)+',0 0,0 Z'
-    );
-    path.setAttribute('fill','#C8312C');
-    path.setAttribute('transform','rotate(180)');
-    var dot = document.createElementNS(NS,'circle');
-    dot.setAttribute('cx','0'); dot.setAttribute('cy',-(s*.55));
-    dot.setAttribute('r', r*.52); dot.setAttribute('fill','#fff');
-    g.appendChild(path); g.appendChild(dot);
-    svg.appendChild(g);
-  }
-
-  /* ── cube layout ── */
-  /* Top-left cluster */
-  cube(60,  140, 40, TEAL);
-  cube(129, 105, 36, TEAL);
-  cube(129, 177, 36, CREAM);
-  cube(198, 140, 36, TEAL);
-  cube(60,  213, 36, ORANG);
-  cube(129, 249, 32, TEAL);
-  cube(60,  282, 30, RED);
-
-  /* Top-center sparse */
-  cube(370,  58, 28, CREAM);
-  cube(425,  86, 24, TEAL);
-  cube(755,  62, 24, CREAM);
-  cube(808,  38, 28, RED);
-  cube(755, 108, 24, ORANG);
-
-  /* Top-right cluster */
-  cube(1010,  88, 40, CREAM);
-  cube(1079,  52, 36, RED);
-  cube(1079, 124, 36, ORANG);
-  cube(1148,  88, 36, CREAM);
-  cube(1010, 160, 36, RED);
-  cube(1079, 196, 36, TEAL);
-  cube(1148, 160, 32, CREAM);
-  cube(1010, 232, 28, ORANG);
-
-  /* Bottom-left cluster */
-  cube(62,  360, 36, ORANG);
-  cube(130, 324, 32, RED);
-  cube(130, 396, 40, ORANG);
-  cube(62,  432, 30, CREAM);
-  cube(198, 360, 30, RED);
-  cube(198, 428, 28, ORANG);
-
-  /* Bottom-right cluster */
-  cube(990,  355, 36, TEAL);
-  cube(1058, 319, 32, CREAM);
-  cube(1058, 391, 36, RED);
-  cube(1126, 355, 40, TEAL);
-  cube(1126, 427, 30, CREAM);
-  cube(990,  427, 28, RED);
-  cube(1058, 459, 26, ORANG);
-
-  /* ── map pins ── */
-  pin(88,  52, 32);
-  pin(508, 40, 26);
-  pin(104, 340, 24);
-  pin(902, 205, 28);
-  pin(440, 335, 22);
-})();
-</script>
-
-<!-- ════════════════════════════════════════
-     CARDS + TABS + UI LOGIC
-════════════════════════════════════════ -->
+<!-- ═══════ CARDS + UI ═════════ -->
 <script>
 var CARDS = [
-  /* ── INCUBATORS ── */
-  {
-    cat: 'incubators', logo: 'IIM NSRCEL',
-    name: 'NSRCEL – IIM Bangalore',
-    desc: 'NSRCEL is the leading incubation centre for startups, emerging businesses and women entrepreneurs in India.',
-    more: 'Established in 2002, NSRCEL has supported 600+ startups that have raised ₹4,000 Cr+ in funding. It offers structured mentorship, curated investor access, and a vibrant peer network across all sectors.'
-  },
-  {
-    cat: 'incubators', logo: 'ARTPARK',
-    name: 'ARTPARK – IISc Bangalore',
-    desc: 'AI & Robotics Technology Park at IISc, bridging cutting-edge academic research with real-world industry deployment.',
-    more: 'A not-for-profit founded by IISc with Karnataka government support, ARTPARK accelerates deep-tech ventures in AI, robotics, and autonomous systems. It connects founders directly to IISc\'s world-class research labs.'
-  },
-  {
-    cat: 'incubators', logo: 'SOCIAL ALPHA',
-    name: 'Social Alpha',
-    desc: 'A mission-driven innovation platform identifying and supporting science and technology-based startups for social impact.',
-    more: 'Launched by Tata Trusts, Social Alpha focuses on startups solving challenges in agriculture, clean energy, health, and water. It provides catalytic capital, domain expertise, and a curated ecosystem of strategic partners.'
-  },
-  {
-    cat: 'incubators', logo: 'BRIGADE REAP',
-    name: 'Brigade REAP',
-    desc: 'Asia\'s largest real estate focused startup accelerator by Brigade Group, empowering proptech and construction-tech startups.',
-    more: 'Brigade REAP runs a 6-month program offering co-working space, mentorship from industry leaders, and pilot opportunities with Brigade\'s own $3B+ real-estate portfolio — giving startups immediate enterprise traction.'
-  },
-  {
-    cat: 'incubators', logo: 'T-HUB',
-    name: 'T-Hub Foundation',
-    desc: 'India\'s largest startup incubator, enabling entrepreneurs to accelerate their journey from ideation to scale.',
-    more: 'A public-private partnership backed by three premier academic institutions, T-Hub has enabled 2,000+ startups, facilitated $600M+ in funding, and built global connectivity across 35 countries through its international programs.'
-  },
-  {
-    cat: 'incubators', logo: 'CIIE.CO',
-    name: 'CIIE.CO – IIM Ahmedabad',
-    desc: 'An innovation hub and early-stage accelerator at IIM Ahmedabad supporting impact-driven technology ventures.',
-    more: 'CIIE.CO has invested in 150+ startups through its Bharat Innovation Fund, covering cleantech, fintech, and healthtech. As one of India\'s most active university-linked ecosystems, it offers deep sector expertise and global connections.'
-  },
-  /* ── VENTURE CAPITAL ── */
-  {
-    cat: 'vc', logo: 'KALAARI',
-    name: 'Kalaari Capital',
-    desc: 'Early-stage venture capital firm investing in technology-driven startups disrupting large markets across India.',
-    more: 'Kalaari has deployed $650M+ across 100+ companies including Dream11, Myntra, and Urban Ladder. The fund focuses on Seed to Series B investments in consumer tech, SaaS, and healthcare — with a hands-on portfolio support model.'
-  },
-  {
-    cat: 'vc', logo: 'FIRESIDE',
-    name: 'Fireside Ventures',
-    desc: 'India\'s leading consumer brand-focused VC fund, backing the next generation of authentic Indian consumer startups.',
-    more: 'Managing $300M+ across three funds, Fireside has backed Mamaearth, boAt, Rage Coffee, and Epigamia. They bring deep brand-building and retail expertise alongside capital, helping founders build category-defining businesses.'
-  },
-  {
-    cat: 'vc', logo: 'BLUME',
-    name: 'Blume Ventures',
-    desc: 'Seed and pre-Series A fund with a hands-on approach to building high-conviction Indian technology businesses.',
-    more: 'Blume has invested in 100+ companies including Unacademy, Slice, Dunzo, and Spinny. Their Fund IV (₹800 Cr) continues their thesis of backing founders early and staying with them across multiple rounds.'
-  },
-  {
-    cat: 'vc', logo: 'PRIME VP',
-    name: 'Prime Venture Partners',
-    desc: 'Seed stage fund focused on fintech, SaaS, and healthcare startups, run by experienced operators turned investors.',
-    more: 'Prime VP has backed 40+ companies with $160M in committed capital, including Happay, Niyo, and Quizizz. Their team of ex-founders provides deep functional guidance on product, sales, and international expansion.'
-  },
-  {
-    cat: 'vc', logo: 'ACCEL',
-    name: 'Accel India',
-    desc: 'Global venture capital firm with a deep India focus, backing founders from seed stage through growth rounds.',
-    more: 'Accel has invested in Flipkart, Swiggy, BrowserStack, and Freshworks — collectively worth $50B+. With $1.5B+ deployed in India, their local team of 15 investors provides unmatched depth of ecosystem knowledge.'
-  },
-  {
-    cat: 'vc', logo: 'NEXUS',
-    name: 'Nexus Venture Partners',
-    desc: 'India–US venture firm partnering with early-stage founders building scalable B2B and consumer internet businesses.',
-    more: 'Managing $1.5B across five funds, Nexus has backed Druva, Unacademy, and Rapido. Their dual-shore team helps Indian startups navigate both domestic growth and US market entry simultaneously.'
-  },
-  /* ── STARTUP COMMUNITIES ── */
-  {
-    cat: 'communities', logo: 'TiE',
-    name: 'TiE Bangalore',
-    desc: 'Global non-profit fostering entrepreneurship through mentorship, education, networking, and funding connections.',
-    more: 'TiE Bangalore hosts TiEcon — connecting 1,500+ founders with investors and mentors annually. With 60 chapters worldwide and 15,000+ members, TiE is the world\'s largest and most influential entrepreneurship organisation.'
-  },
-  {
-    cat: 'communities', logo: 'iSPIRT',
-    name: 'iSPIRT Foundation',
-    desc: 'India\'s software product industry think tank, helping founders with policy advocacy and product-market strategy.',
-    more: 'iSPIRT architected India Stack — UPI, Aadhaar, and ONDC — transforming the country\'s digital infrastructure. Their PlayBook Roundtables connect early-stage founders with battle-tested operators in intimate cohort settings.'
-  },
-  {
-    cat: 'communities', logo: 'HEADSTART',
-    name: 'Headstart Network',
-    desc: 'India\'s grassroots startup community connecting entrepreneurs and enabling early-stage ecosystem building across cities.',
-    more: 'Headstart has hosted 2,000+ events across 25+ Indian cities, reaching 50,000+ founders and startup enthusiasts. Their monthly meetups feature product demos, investor panels, and peer-to-peer founder knowledge exchange.'
-  },
-  {
-    cat: 'communities', logo: 'NASSCOM',
-    name: 'NASSCOM 10,000 Startups',
-    desc: 'India\'s largest tech startup ecosystem enabler with incubation, acceleration and enterprise market access programs.',
-    more: 'Since 2013, NASSCOM has supported 2,100+ startups, facilitated $950M+ in funding, and created 30,000+ jobs. Their corporate connect programs give early-stage startups direct access to Fortune 500 pilot opportunities.'
-  },
-  {
-    cat: 'communities', logo: 'YOURSTORY',
-    name: 'YourStory Media',
-    desc: 'India\'s largest startup media and community platform with 30M+ readers and 50,000+ founder stories published.',
-    more: 'YourStory hosts TechSparks — India\'s biggest startup tech conference — and produces original research reports on ecosystem trends. It is the go-to platform for founder visibility, community building, and fundraising announcements.'
-  },
-  /* ── FAMILY FUND OFFICES ── */
-  {
-    cat: 'family', logo: 'PREMJI INVEST',
-    name: 'Premji Invest',
-    desc: 'Azim Premji\'s investment firm managing long-term strategic investments across private and public equities in India.',
-    more: 'With $8B+ in AUM, Premji Invest has backed Byju\'s, Swiggy, and Ola across seed to late-stage rounds. One of India\'s most patient and founder-friendly capital sources, known for not micromanaging portfolio companies.'
-  },
-  {
-    cat: 'family', logo: 'CATAMARAN',
-    name: 'Catamaran Ventures',
-    desc: 'N.R. Narayana Murthy\'s family office investing in technology, retail, and healthcare startups across growth stages.',
-    more: 'Catamaran has backed Flipkart and Swiggy among others, bringing operational excellence from the Infosys playbook. The fund focuses on businesses with strong unit economics and a clear path to profitability.'
-  },
-  {
-    cat: 'family', logo: 'JSW VENTURES',
-    name: 'JSW Ventures',
-    desc: 'Family office of the JSW Group investing in early-stage Indian startups across sectors with a sector-agnostic mandate.',
-    more: 'JSW Ventures manages $100M+ across its first fund with 25+ portfolio companies. Founders benefit from JSW Group\'s industrial network across steel, energy, infrastructure, and sports to unlock B2B sales and distribution.'
-  },
-  {
-    cat: 'family', logo: 'RATAN TATA',
-    name: 'Ratan Tata Investments',
-    desc: 'Personal investment portfolio of India\'s most beloved business leader, focused on consumer and deep-tech startups.',
-    more: 'Ratan Tata has personally backed 50+ startups including Ola, Paytm, and Bluestone. His involvement provides not just capital but the invaluable brand endorsement of the most trusted name in Indian business history.'
-  },
-  {
-    cat: 'family', logo: 'GODREJ',
-    name: 'Godrej Family Office',
-    desc: 'Diversified family office of the Godrej Group with strategic investments in consumer brands, real estate tech and sustainability.',
-    more: 'Godrej Ventures leverages the group\'s 125+ year brand legacy and pan-India distribution network to accelerate portfolio companies. It focuses on businesses that align with Godrej\'s core commitment to good and green growth.'
-  },
-  {
-    cat: 'family', logo: 'NILEKANI',
-    name: 'Nilekani Philanthropies',
-    desc: 'Strategic investments and philanthropic initiatives by Nandan Nilekani focused on tech-for-good and financial inclusion.',
-    more: 'Nandan Nilekani backs and advises startups leveraging India Stack infrastructure to solve societal challenges. His portfolio spans financial inclusion, digital governance, and edtech — with personal mentorship from the Aadhaar architect.'
-  },
+  {cat:'incubators',logo:'IIM NSRCEL',name:'NSRCEL – IIM Bangalore',
+   desc:'NSRCEL is the leading incubation centre for startups, emerging businesses and women entrepreneurs in India.',
+   more:'Established in 2002, NSRCEL has supported 600+ startups that have raised ₹4,000 Cr+ in funding. It offers structured mentorship, curated investor access, and a vibrant peer network across all sectors.'},
+  {cat:'incubators',logo:'ARTPARK',name:'ARTPARK – IISc Bangalore',
+   desc:'AI & Robotics Technology Park at IISc, bridging cutting-edge academic research with real-world industry deployment.',
+   more:'A not-for-profit founded by IISc with Karnataka government support, ARTPARK accelerates deep-tech ventures in AI, robotics, and autonomous systems, connecting founders to IISc\'s world-class research labs.'},
+  {cat:'incubators',logo:'SOCIAL ALPHA',name:'Social Alpha',
+   desc:'A mission-driven innovation platform identifying and supporting science and technology-based startups for social impact.',
+   more:'Launched by Tata Trusts, Social Alpha focuses on startups solving challenges in agriculture, clean energy, health, and water. It provides catalytic capital, domain expertise, and a curated ecosystem of strategic partners.'},
+  {cat:'incubators',logo:'BRIGADE REAP',name:'Brigade REAP',
+   desc:'Asia\'s largest real estate focused startup accelerator by Brigade Group, empowering proptech and construction-tech startups.',
+   more:'Brigade REAP offers a 6-month program with co-working space, mentorship from industry leaders, and pilot opportunities with Brigade\'s own $3B+ real-estate portfolio — giving startups immediate enterprise traction.'},
+  {cat:'incubators',logo:'T-HUB',name:'T-Hub Foundation',
+   desc:'India\'s largest startup incubator, enabling entrepreneurs to accelerate their journey from ideation to scale.',
+   more:'A public-private partnership backed by three premier academic institutions, T-Hub has enabled 2,000+ startups, facilitated $600M+ in funding, and built global connectivity across 35 countries.'},
+  {cat:'incubators',logo:'CIIE.CO',name:'CIIE.CO – IIM Ahmedabad',
+   desc:'An innovation hub and early-stage accelerator at IIM Ahmedabad supporting impact-driven technology ventures.',
+   more:'CIIE.CO has invested in 150+ startups through its Bharat Innovation Fund across cleantech, fintech, and healthtech. One of India\'s most active university-linked ecosystems with deep sector expertise.'},
+  {cat:'vc',logo:'KALAARI',name:'Kalaari Capital',
+   desc:'Early-stage venture capital firm investing in technology-driven startups disrupting large markets across India.',
+   more:'Kalaari has deployed $650M+ across 100+ companies including Dream11, Myntra, and Urban Ladder. The fund focuses on Seed to Series B in consumer tech, SaaS, and healthcare with hands-on portfolio support.'},
+  {cat:'vc',logo:'FIRESIDE',name:'Fireside Ventures',
+   desc:'India\'s leading consumer brand-focused VC fund, backing the next generation of authentic Indian consumer startups.',
+   more:'Managing $300M+ across three funds, Fireside has backed Mamaearth, boAt, Rage Coffee, and Epigamia. They bring deep brand-building and retail expertise alongside capital to help founders build category-defining businesses.'},
+  {cat:'vc',logo:'BLUME',name:'Blume Ventures',
+   desc:'Seed and pre-Series A fund with a hands-on approach to building high-conviction Indian technology businesses.',
+   more:'Blume has invested in 100+ companies including Unacademy, Slice, Dunzo, and Spinny. Their Fund IV continues their thesis of backing founders early and staying with them through multiple funding rounds.'},
+  {cat:'vc',logo:'PRIME VP',name:'Prime Venture Partners',
+   desc:'Seed stage fund focused on fintech, SaaS, and healthcare startups, run by experienced operators turned investors.',
+   more:'Prime VP has backed 40+ companies with $160M in committed capital, including Happay, Niyo, and Quizizz. Their team of ex-founders provides deep guidance on product, sales, and international expansion.'},
+  {cat:'vc',logo:'ACCEL',name:'Accel India',
+   desc:'Global venture capital firm with a deep India focus, backing founders from seed stage through growth rounds.',
+   more:'Accel has invested in Flipkart, Swiggy, BrowserStack, and Freshworks — collectively worth $50B+. With $1.5B+ deployed in India, their local team provides unmatched depth of ecosystem knowledge and founder support.'},
+  {cat:'vc',logo:'NEXUS',name:'Nexus Venture Partners',
+   desc:'India–US venture firm partnering with early-stage founders building scalable B2B and consumer internet businesses.',
+   more:'Managing $1.5B across five funds, Nexus has backed Druva, Unacademy, and Rapido. Their dual-shore team helps Indian startups navigate domestic growth and US market entry simultaneously.'},
+  {cat:'communities',logo:'TiE',name:'TiE Bangalore',
+   desc:'Global non-profit fostering entrepreneurship through mentorship, education, networking, and funding connections.',
+   more:'TiE Bangalore hosts TiEcon — connecting 1,500+ founders with investors and mentors annually. With 60 chapters worldwide and 15,000+ members, TiE is the world\'s largest and most influential entrepreneurship organisation.'},
+  {cat:'communities',logo:'iSPIRT',name:'iSPIRT Foundation',
+   desc:'India\'s software product industry think tank, helping founders with policy advocacy and product-market strategy.',
+   more:'iSPIRT architected India Stack — UPI, Aadhaar, and ONDC — transforming the country\'s digital infrastructure. Their PlayBook Roundtables connect early-stage founders with battle-tested operators in intimate cohort settings.'},
+  {cat:'communities',logo:'HEADSTART',name:'Headstart Network',
+   desc:'India\'s grassroots startup community connecting entrepreneurs and enabling early-stage ecosystem building across cities.',
+   more:'Headstart has hosted 2,000+ events across 25+ Indian cities, reaching 50,000+ founders and startup enthusiasts. Monthly meetups feature product demos, investor panels, and peer-to-peer knowledge exchange.'},
+  {cat:'communities',logo:'NASSCOM',name:'NASSCOM 10,000 Startups',
+   desc:'India\'s largest tech startup ecosystem enabler with incubation, acceleration and enterprise market access programs.',
+   more:'Since 2013, NASSCOM has supported 2,100+ startups, facilitated $950M+ in funding, and created 30,000+ jobs. Their corporate connect programs give early-stage startups direct access to Fortune 500 pilot opportunities.'},
+  {cat:'communities',logo:'YOURSTORY',name:'YourStory Media',
+   desc:'India\'s largest startup media and community platform with 30M+ readers and 50,000+ founder stories published.',
+   more:'YourStory hosts TechSparks — India\'s biggest startup tech conference — and produces original research reports. It is the go-to platform for founder visibility, community building, and fundraising announcements.'},
+  {cat:'communities',logo:'HEADSTART',name:'Bangalore Startups',
+   desc:'Hyper-local community for Bangalore-based founders offering peer connections, events, and ecosystem navigation.',
+   more:'Bangalore Startups organises regular networking meetups, demo days, and themed workshops for early-stage founders. The community acts as a first port of call for anyone entering the Bangalore startup ecosystem.'},
+  {cat:'family',logo:'PREMJI INVEST',name:'Premji Invest',
+   desc:'Azim Premji\'s investment firm managing long-term strategic investments across private and public equities in India.',
+   more:'With $8B+ in AUM, Premji Invest has backed Byju\'s, Swiggy, and Ola across seed to late-stage rounds. One of India\'s most patient and founder-friendly capital sources, known for a non-interventionist approach.'},
+  {cat:'family',logo:'CATAMARAN',name:'Catamaran Ventures',
+   desc:'N.R. Narayana Murthy\'s family office investing in technology, retail, and healthcare startups across growth stages.',
+   more:'Catamaran has backed Flipkart and Swiggy among others, bringing operational excellence from the Infosys playbook. The fund focuses on businesses with strong unit economics and a clear path to profitability.'},
+  {cat:'family',logo:'JSW VENTURES',name:'JSW Ventures',
+   desc:'Family office of the JSW Group investing in early-stage Indian startups with a sector-agnostic mandate.',
+   more:'JSW Ventures manages $100M+ with 25+ portfolio companies. Founders benefit from JSW Group\'s industrial network across steel, energy, infrastructure, and sports to unlock B2B sales and distribution opportunities.'},
+  {cat:'family',logo:'RATAN TATA',name:'Ratan Tata Investments',
+   desc:'Personal investment portfolio of India\'s most beloved business leader, focused on consumer and deep-tech startups.',
+   more:'Ratan Tata has personally backed 50+ startups including Ola, Paytm, and Bluestone. His involvement provides not just capital but the invaluable brand endorsement of the most trusted name in Indian business history.'},
+  {cat:'family',logo:'GODREJ',name:'Godrej Family Office',
+   desc:'Diversified family office of the Godrej Group with strategic investments in consumer brands and sustainability-focused businesses.',
+   more:'Godrej Ventures leverages the group\'s 125+ year brand legacy and pan-India distribution network to accelerate portfolio companies, focusing on businesses aligned with good and green growth principles.'},
+  {cat:'family',logo:'NILEKANI',name:'Nilekani Philanthropies',
+   desc:'Strategic investments and philanthropic initiatives by Nandan Nilekani focused on tech-for-good and financial inclusion.',
+   more:'Nandan Nilekani backs startups leveraging India Stack infrastructure to solve societal challenges. His portfolio spans financial inclusion, digital governance, and edtech — with direct mentorship from the Aadhaar architect.'},
 ];
 
-/* ── RENDER CARDS ── */
 function renderCards(cat) {
-  var grid = document.getElementById('cards-grid');
-  grid.innerHTML = '';
-  CARDS.filter(function(c){ return c.cat === cat; }).forEach(function(c) {
-    var div = document.createElement('div');
-    div.className = 'card';
-    div.innerHTML =
-      '<div class="card-logo">'+c.logo+'</div>'+
-      '<div class="card-name">'+c.name+'</div>'+
-      '<div class="card-desc">'+c.desc+'</div>'+
-      '<div class="card-more">'+c.more+'</div>'+
-      '<button class="card-read-more" onclick="toggleMore(this)">READ MORE <span class="read-arrow">&#8594;</span></button>';
-    grid.appendChild(div);
+  var g = document.getElementById('cards-grid');
+  g.innerHTML = '';
+  CARDS.filter(function(c){return c.cat===cat;}).forEach(function(c) {
+    var d = document.createElement('div');
+    d.className = 'card';
+    d.innerHTML = '<div class="card-logo">'+c.logo+'</div>'
+      +'<div class="card-name">'+c.name+'</div>'
+      +'<div class="card-desc">'+c.desc+'</div>'
+      +'<div class="card-more">'+c.more+'</div>'
+      +'<button class="card-read-more" onclick="toggleMore(this)">READ MORE <span class="read-arrow">&#8594;</span></button>';
+    g.appendChild(d);
   });
 }
 
 function toggleMore(btn) {
   var card = btn.closest('.card');
-  var expanded = card.classList.toggle('expanded');
-  btn.innerHTML = expanded
+  var exp = card.classList.toggle('expanded');
+  btn.innerHTML = exp
     ? 'READ LESS <span class="read-arrow" style="transform:rotate(90deg)">&#8594;</span>'
     : 'READ MORE <span class="read-arrow">&#8594;</span>';
 }
 
-/* ── TABS ── */
-document.querySelectorAll('.tab-btn').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-    btn.classList.add('active');
-    renderCards(btn.dataset.cat);
+document.querySelectorAll('.tab-btn').forEach(function(b) {
+  b.addEventListener('click', function() {
+    document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active');});
+    b.classList.add('active');
+    renderCards(b.dataset.cat);
   });
 });
 renderCards('incubators');
 
-/* ── SCROLL TO TOP ── */
-var scrollBtn = document.getElementById('scroll-top');
-window.addEventListener('scroll', function() {
-  scrollBtn.classList.toggle('show', window.scrollY > 300);
-}, { passive: true });
-scrollBtn.addEventListener('click', function() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-});
-
-/* ── HAMBURGER ── */
+var sb = document.getElementById('scroll-top');
+window.addEventListener('scroll', function() { sb.classList.toggle('show', window.scrollY>300); }, {passive:true});
+sb.addEventListener('click', function() { window.scrollTo({top:0,behavior:'smooth'}); });
 document.getElementById('hamburger').addEventListener('click', function() {
   document.getElementById('nav-menu').classList.toggle('open');
 });
 </script>
-
 </body>
 </html>
