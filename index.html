@@ -38,11 +38,8 @@
       padding: 0 30px; height: 86px;
       box-shadow: 0 1px 0 rgba(70,6,29,.08);
     }
-    .nav-logo {
-      font-weight: 900; font-size: 15px;
-      color: var(--red); letter-spacing: 3px;
-      text-decoration: none; text-transform: uppercase;
-    }
+    .nav-logo { text-decoration: none; display: flex; align-items: center; }
+    .nav-logo img { height: 22px; width: auto; display: block; }
     .nav-menu {
       display: flex; align-items: center; list-style: none; gap: 0;
     }
@@ -296,7 +293,9 @@
 
 <!-- ═══════════ NAV ════════════ -->
 <nav class="navbar">
-  <a href="#" class="nav-logo">ANTLER</a>
+  <a href="#" class="nav-logo">
+    <img src="assets/logo.svg" alt="Antler" />
+  </a>
   <ul class="nav-menu" id="nav-menu">
     <li><a href="#">Antler India</a></li>
     <li><a href="#">Theory of Next</a></li>
